@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>屏幕分辨率和网页宽高</title>
+        <style>
+            * {
+                padding: 0;
+                margin: 0;
+                box-sizing: border-box;
+            }
+            html,
+            body {
+                height: 100%;
+                width: 100%;
+                overflow: hidden; /* 防止滚动条影响布局 */
+            }
+            .box {
+                width: 100%;
+                height: 100%;
+                padding: 20px;
+            }
+            .info {
+                margin-bottom: 10px;
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                background-color: #f9f9f9;
+                margin-top: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="box">
+            <h1>获取屏幕和网页宽高信息</h1>
+
+            <div class="info">
+                <strong>屏幕分辨率：</strong>
+                <span id="screen-resolution"></span>
+            </div>
+
+            <div class="info">
+                <strong>网页实际可用宽高：</strong>
+                <span id="page-size"></span>
+            </div>
+            <div class="info">
+                <strong>系统缩放比例：</strong>
+                <span id="screen-scale"></span>
+            </div>
+        </div>
+
+        <script>
+            // 获取网页实际可用宽高信息的函数
+            const updatePageSize = () => {
+                // 获取屏幕分辨率信息
+                const screenResolution = `${window.screen.width} x ${window.screen.height}`;
+                const pageWidth = window.innerWidth;
+                const pageHeight = window.innerHeight;
+                document.getElementById(
+                    "page-size"
+                ).textContent = `${pageWidth} x ${pageHeight}`;
+                // 设置初始显示内容
+                document.getElementById("screen-resolution").textContent =
+                    screenResolution;
+                document.getElementById("screen-scale").textContent =
+                    window.devicePixelRatio;
+            };
+
+            updatePageSize(); // 初次加载时设置页面大小
+
+            // 监听窗口大小变化事件
+            window.addEventListener("resize", updatePageSize);
+
+            // 监听设备方向变化事件
+            window.addEventListener("orientationchange", () => {
+                updatePageSize(); // 屏幕方向变化时更新页面大小
+                console.log("屏幕方向变化了，当前方向：", window.orientation);
+            });
+
+            // 检查页面加载时的设备方向
+            if (window.orientation !== undefined) {
+                console.log("初始屏幕方向：", window.orientation);
+            }
+        </script>
+    </body>
+</html>
